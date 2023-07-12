@@ -1,7 +1,7 @@
 import argparse
 from create import create
 from run import run
-from models import models
+from models import sync_models
 from fmt import fmt
 from io import TextIOWrapper
 
@@ -50,7 +50,7 @@ elif args.command == 'sync':
         models_wrapper:TextIOWrapper = TextIOWrapper(args.models)
         
         models_str = str(models_wrapper.buffer.read())
-        models(project=args.project_name, models_str=models_str)
+        sync_models(project=args.project_name, models_str=models_str)
     else:
         print('Currently, only synchronizing models from a JSON file is supported. Please refer to the help documentation.')
 elif args.command == 'fmt':
