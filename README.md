@@ -57,6 +57,11 @@ or back end logic, that's fine. Just don't extend them from the BaseModel class 
 Those class extensions operate as indicators that the front and back end need to synchronize those classes in a shared schema.
 Any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.
 
+For details on how to format your JSON models for optimal use with Flython, run 
+```
+flython fmt
+```
+
 # Prerequisites
 
 1. python 3.10
@@ -80,8 +85,7 @@ After cloning this repo, cd into it and run
 pyinstaller ./flython.py --onefile
 ```
 
-That should generate an executable for your native platform that you can move into whatever directory your favorite shell
-grabs its executables from. After doing so, you should be able to call 'flython' CLI commands in any directory.
+That should generate an executable for your native platform  in the dist directory that you can move into whatever directory your favorite shell grabs its executables from. After doing so, you should be able to call 'flython' CLI commands in any directory.
 
 
 
