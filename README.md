@@ -17,8 +17,8 @@ and Flython will generate three things:
 
 1. A containerized back end API application written with the FastAPI framework in Python
 2. A Flutter front end application with a specific file structure that enables extremely simplified
-   integration with the back end API.
-3. A JSON file defining a shared model schema that is automatically translated across the front and back end data structures.
+   integration with the back end API
+3. A JSON file defining a shared model schema that is automatically translated across the front and back end data structures
 
 From there, you can run
 
