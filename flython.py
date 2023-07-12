@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser(description='''Welcome to Flython!
                                  ```
                                  ''')
 parser.add_argument('command', 
-                    choices= ['create', 'run', 'add', 'fmt'], 
+                    choices= ['create', 'run', 'sync', 'fmt'], 
                     help='What do you want to do with Flython?')
 parser.add_argument('project_name', 
                     type=str, 
@@ -45,14 +45,14 @@ if args.command == 'create':
     create(args.project_name)
 elif args.command == 'run':
     run(args.server)
-elif args.command == 'add':
+elif args.command == 'sync':
     if args.models != None:
         models_wrapper:TextIOWrapper = TextIOWrapper(args.models)
         
         models_str = str(models_wrapper.buffer.read())
         models(project=args.project_name, models_str=models_str)
     else:
-        print('Currently, only adding models from a JSON file is supported. Please refer to the help documentation.')
+        print('Currently, only synchronizing models from a JSON file is supported. Please refer to the help documentation.')
 elif args.command == 'fmt':
     fmt()
 else:
