@@ -1,6 +1,6 @@
 import json
 
-def models(project:str, models_str:str):
+def sync_models(project:str, models_str:str):
     models_dict = json.loads(models_str)
     models = []
     model_names = []
@@ -55,6 +55,7 @@ class {model_names[idx]}(BaseModel):''')
     {key}: {attr_type}''')
             f.write('''
 ''')
+        f.close()
                     
 def build_flutter_models(models, model_names, project):
     with open(f'./{project}_fe/lib/models.dart', 'w') as f:
@@ -151,3 +152,4 @@ class {model_names[idx]} extends Model {{''')
   };
 }
 ''')
+        f.close()
