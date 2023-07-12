@@ -1,1 +1,6 @@
 /flythonenv
+/flython_test
+/build
+/dist
+flython.spec
+/__pycache__
