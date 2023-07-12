@@ -4,6 +4,7 @@ def create (project:str):
   subprocess.run(['mkdir', project])
   subprocess.run(['touch', 'Dockerfile'], cwd=f'./{project}')
   subprocess.run(['touch', 'requirements.txt'], cwd=f'./{project}')
+  subprocess.run(['touch', 'test_models.json'], cwd=f'./{project}')
 
   with open(f'{project}/Dockerfile', 'w') as f:
       f.write(
@@ -23,6 +24,19 @@ pydantic>=1.8.0,<2.0.0
 uvicorn>=0.15.0,<0.16.0
 ''')
 
+  with open(f'{project}/test_models.json', 'w') as f:
+      f.write('''{
+  "User": {
+    "name": "string",
+    "age": "int"
+  },
+  "Foo": {
+      "bar": "string",
+      "user": "User"
+  }
+}''')
+      f.close()
+              
   subprocess.run(['pip', 'install', '-r', 'requirements.txt', '--upgrade', '--no-cache-dir'], cwd=f'./{project}')
   subprocess.run(['sudo', 'apt', 'install', 'uvicorn'])
   subprocess.run(['mkdir', 'app'], cwd=f'./{project}')
@@ -51,6 +65,7 @@ class User(BaseModel):
     name: str
     age: int
 ''')
+      f.close()
 
   subprocess.run(['flutter', 'create', f'{project}_fe'], cwd=f'./{project}')
   subprocess.run(['flutter', 'pub', 'add', 'http'], cwd=f'./{project}/{project}_fe')
@@ -76,6 +91,7 @@ class User extends Model {
       };
 }
 ''')
+      f.close()
 
   with open(f'{project}/{project}_fe/lib/backend.dart', 'w') as f:
       f.write(
@@ -105,6 +121,7 @@ class Backend {
   }
 }
 ''')
+      f.close()
 
   with open(f'{project}/{project}_fe/lib/main.dart', 'w') as f:
       f.write(
@@ -178,5 +195,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 ''')
+      f.close()
 # At this point, we need to implement our flashy ASCII art logo and provide brief instructions for how to run the front end.
   
