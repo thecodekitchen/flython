@@ -115,7 +115,57 @@ class Backend {
       return response.body;
     } else {
       Uri url = Uri.parse('$baseUrl/$route');
-      Response response = await post(url, body: jsonEncode(model));
+      Response response = await post(url, headers: postHeaders, body: jsonEncode(model));
+      return response.body;
+    }
+  }
+
+  Future<String> GET({String? route, Map<String, String>? headers}) async {
+    Map<String, String> getHeaders = Map.fromEntries([]);
+    if (headers != null) {
+      getHeaders.addAll(headers);
+    }
+    if (route == null) {
+      Response response =
+          await get(baseUrl, headers: getHeaders);
+      return response.body;
+    } else {
+      Uri url = Uri.parse('$baseUrl/$route');
+      Response response = await get(url, headers: getHeaders);
+      return response.body;
+    }
+  }
+
+  Future<String> DELETE({String? route, Map<String, String>? headers}) async {
+    Map<String, String> deleteHeaders = Map.fromEntries([]);
+    if (headers != null) {
+      deleteHeaders.addAll(headers);
+    }
+    if (route == null) {
+      Response response =
+          await delete(baseUrl, headers: deleteHeaders);
+      return response.body;
+    } else {
+      Uri url = Uri.parse('$baseUrl/$route');
+      Response response = await delete(url, headers: deleteHeaders);
+      return response.body;
+    }
+  }
+
+  Future<String> PUT(Model model,
+      {String? route, Map<String, String>? headers}) async {
+    Map<String, String> putHeaders =
+        Map.fromEntries([const MapEntry('Content-Type', 'application/json')]);
+    if (headers != null) {
+      putHeaders.addAll(headers);
+    }
+    if (route == null) {
+      Response response =
+          await put(baseUrl, headers: putHeaders, body: jsonEncode(model));
+      return response.body;
+    } else {
+      Uri url = Uri.parse('$baseUrl/$route');
+      Response response = await post(url, headers: putHeaders, body: jsonEncode(model));
       return response.body;
     }
   }
