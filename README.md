@@ -31,11 +31,15 @@ to run the front end or
 
 ```
 cd <your-project-name>
-flython run <your-project-name> -server=back
+flython run -server=back
 ```
 
 to run the back end server.
-Do both in separate terminals to run the full stack.
+Or even just
+```
+flython run
+```
+to run both from a single terminal! At the moment, that gets a little chaotic since the server logs for the back end server are mixed in with the debug logs for the front end application. This is especially messy when debugging mobile front ends. However, the recommended approach is to do your main integration testing in a less verbose desktop build for the front end (option 1 in the run command typically) and run the back end server separately when debugging the mobile implementation.
 
 There will be a top level file called test_models.json in the built directory.
 Notice that there is one more model in the JSON than the generated front and back end model files.
@@ -46,7 +50,7 @@ a model that way.
 Changes to the model schema should be made to a json file and applied with the 'flython sync' command like so:
 
 ```
-flython sync <your-project-name> -models=./test_models.json
+flython sync test_models.json
 ```
 
 You can synchronize the model schema for the front and back end in this way with any JSON file, allowing for 
@@ -82,7 +86,7 @@ flython fmt
 After cloning this repo, cd into it and run
 
 ```
-pyinstaller ./flython.py --onefile
+pyinstaller flython.py --onefile
 ```
 
 That should generate an executable for your native platform  in the dist directory that you can move into whatever directory your favorite shell grabs its executables from. After doing so, you should be able to call 'flython' CLI commands in any directory.
