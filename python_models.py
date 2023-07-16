@@ -15,7 +15,7 @@ class {model_names[idx]}(BaseModel):''')
                 
                 if is_list:
                     key = str(key).removesuffix('[]')
-                if(attr_type=='string'):
+                if attr_type=='string':
                     if is_optional:
                         if is_list:
                             f.write(f'''
@@ -30,7 +30,7 @@ class {model_names[idx]}(BaseModel):''')
                         else:
                             f.write(f'''
     {key}: str''')
-                elif(attr_type=='int'):
+                elif attr_type=='int':
                     if is_optional:
                         if is_list:
                             f.write(f'''
@@ -45,7 +45,7 @@ class {model_names[idx]}(BaseModel):''')
                         else:
                             f.write(f'''
     {key}: int''')
-                elif(attr_type=='float'):
+                elif attr_type=='float':
                     if is_optional:
                         if is_list:
                             f.write(f'''
@@ -60,6 +60,21 @@ class {model_names[idx]}(BaseModel):''')
                         else:
                             f.write(f'''
     {key}: float''')
+                elif attr_type == 'bool':
+                    if is_optional:
+                        if is_list:
+                            f.write(f'''
+    {key}: list[bool] | None''')
+                        else:
+                            f.write(f'''
+    {key}: bool | None''')
+                    else:
+                        if is_list:
+                            f.write(f'''
+    {key}: list[bool]''')
+                        else:
+                            f.write(f'''
+    {key}: bool''')
                 else:
                     # In this case, the type is likely a nested model to be described later, so we just pass it as is.
                     if is_optional:
