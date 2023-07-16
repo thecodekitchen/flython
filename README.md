@@ -37,6 +37,7 @@ flython run -server=back
 to run the back end server.
 Or even just
 ```
+cd <your-project-name>
 flython run
 ```
 to run both from a single terminal! At the moment, that gets a little chaotic since the server logs for the back end server are mixed in with the debug logs for the front end application. This is especially messy when debugging mobile front ends. However, the recommended approach is to do your main integration testing in a less verbose desktop build for the front end (option 1 in the run command typically) and run the back end server separately when debugging the mobile implementation.
