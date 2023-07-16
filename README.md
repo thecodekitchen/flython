@@ -46,7 +46,7 @@ Notice that there is one more model in the JSON than the generated front and bac
 This is so that you can run the 'flython sync' command as described below and see how it works by adding
 a model that way.
 
-# IMPORTANT
+# Model Synchronization
 Changes to the model schema should be made to a json file and applied with the 'flython sync' command like so:
 
 ```
@@ -60,6 +60,36 @@ or back end logic, that's fine. Just don't extend them from the BaseModel class 
 
 Those class extensions operate as indicators that the front and back end need to synchronize those classes in a shared schema.
 Any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.
+
+Any optional attribute names for your model should be prefixed with a '?' in the JSON specification like so:
+```
+{
+   "User": {
+      "name": "string",
+      "?age": "int"
+}
+```
+
+Any list attributes should be suffixed with '[]' like so:
+```
+{
+   "User": {
+      "name": "string",
+      "aliases[]": "string"
+   }
+}
+```
+
+Optional list attributes should combine the two syntaxes:
+```
+{
+   "User": {
+      "name": "string",
+      "?aliases[]": "string"
+   }
+}
+```
+In the last case, the 'aliases' attribute of the User model will be treated in the generated model files as an optional List of strings on the User class which extends the the BaseModel (back end) or Model (front end) class.
 
 For details on how to format your JSON models for optimal use with Flython, run 
 ```
