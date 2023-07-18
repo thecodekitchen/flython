@@ -59,7 +59,7 @@ Rule 1:
 You can synchronize the model schema for the front and back end in this way with any JSON file, allowing for 
 versioned backups of prior configurations. However, breaking changes can occur if either the front or back end 
 model files are edited independently. The whole point is to never do this. If you need a unique class in the front
-or back end logic, that's fine. Just don't extend them from the BaseModel class (in the back end) or the Model class (in the front end).
+or back end logic, that's fine. Just don't extend them from the BaseModel class in either code base.
 
 Those class extensions operate as indicators that the front and back end need to synchronize those classes in a shared schema.
 **Any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.**
@@ -98,7 +98,7 @@ Optional list attributes should combine the two syntaxes:
    }
 }
 ```
-In the last case, the 'aliases' attribute of the User model will be treated in the generated model files as an optional List of strings on the User class which extends the the BaseModel (back end) or Model (front end) class.
+In the last case, the 'aliases' attribute of the User model will be treated in the generated model files as an optional List of strings on the User class which extends the the BaseModel class.
 
 Rule 4:
 
