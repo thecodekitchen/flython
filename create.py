@@ -1,4 +1,5 @@
 import subprocess
+import platform
 
 def create (project:str):
   subprocess.run(['mkdir', project])
@@ -38,7 +39,10 @@ uvicorn>=0.15.0,<0.16.0
       f.close()
               
   subprocess.run(['pip', 'install', '-r', 'requirements.txt', '--upgrade', '--no-cache-dir'], cwd=f'./{project}')
-  subprocess.run(['sudo', 'apt', 'install', 'uvicorn'])
+  if platform.system() == 'Linux':
+    subprocess.run(['sudo', 'apt', 'install', 'uvicorn'])
+  else:
+    subprocess.run(['pip', 'install', "'uvicorn[standard]'"])
   subprocess.run(['mkdir', 'app'], cwd=f'./{project}')
   # subprocess.run(['touch', '__init__.py'], cwd=f'./{project}/app')
   subprocess.run(['touch', 'main.py'], cwd=f'./{project}/app')
