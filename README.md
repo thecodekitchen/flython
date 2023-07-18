@@ -54,13 +54,19 @@ Changes to the model schema should be made to a json file and applied with the '
 flython sync test_models.json
 ```
 
+Rule 1:
+
 You can synchronize the model schema for the front and back end in this way with any JSON file, allowing for 
 versioned backups of prior configurations. However, breaking changes can occur if either the front or back end 
 model files are edited independently. The whole point is to never do this. If you need a unique class in the front
 or back end logic, that's fine. Just don't extend them from the BaseModel class (in the back end) or the Model class (in the front end).
 
 Those class extensions operate as indicators that the front and back end need to synchronize those classes in a shared schema.
-Any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.
+**Any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.**
+
+Don't worry, that was the most complicated rule.
+
+Rule 2:
 
 Any optional attribute names for your model should be prefixed with a '?' in the JSON specification like so:
 ```
@@ -70,6 +76,8 @@ Any optional attribute names for your model should be prefixed with a '?' in the
       "?age": "int"
 }
 ```
+
+Rule 3:
 
 Any list attributes should be suffixed with '[]' like so:
 ```
@@ -92,7 +100,51 @@ Optional list attributes should combine the two syntaxes:
 ```
 In the last case, the 'aliases' attribute of the User model will be treated in the generated model files as an optional List of strings on the User class which extends the the BaseModel (back end) or Model (front end) class.
 
-For details on how to format your JSON models for optimal use with Flython, run 
+Rule 4:
+
+Don't nest objects! Just create new ones and reference them. For instance, instead of this:
+
+**Bad! Very bad!**
+```
+{
+   "User": {
+      "name",
+      "documents[]": [
+         {
+            "name": "string",
+            "content": "string"
+         }
+      ]
+   }
+}
+```
+
+do this:
+
+**nice**
+```
+{
+   "Document": {
+      "name": "string",
+      "content": "string"
+   },
+   "User": {
+      "name": "string",
+      "documents[]": "Document"
+   }
+}
+```
+
+Flython will automatically interpret this as an array (list) of 'Document' objects. To avoid compatibility bugs, the only complex (structured) data types that should be declared as attribute types in models should be other declared models. The simple data types that are currently supported include "string", "int", "float", and "bool". More granular data type support is on the roadmap, but the goal of simple, readable models seems to be mostly served within these limitations.
+
+Rule 5:
+
+Models need to be referenced AFTER they are declared. The reason that 'Document' came first in the above example is because the 'User' model references 'Document' in one of its attributes. This is mainly to appease the Python side of Flython, but I like it as a general rule because it gets you in the habit of only referencing what you've already defined. Wishful thinking in the opposite direction, in my experience, often leads to referencing things I forgot to build.
+
+That's all the rules to the model synchronization game! Go have fun!
+
+
+To see details on your command line of how to format your JSON models for optimal use with Flython, run 
 ```
 flython fmt
 ```
