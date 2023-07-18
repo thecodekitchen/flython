@@ -174,5 +174,5 @@ pyinstaller flython.py --onefile
 
 That should generate an executable for your native platform  in the dist directory that you can move into whatever directory your favorite shell grabs its executables from. After doing so, you should be able to call 'flython' CLI commands in any directory.
 
-WARNING: This was developed on Linux and hasn't yet been tested on Windows! Please let me know what bugs you experience, if any, when attempting to follow these instructions. I will be happy to debug them with you.
+WARNING: This was developed on Linux and hasn't yet been tested on Windows or Mac! Please let me know what bugs you experience, if any, when attempting to follow these instructions on those platforms. I will be happy to debug them with you.
 
