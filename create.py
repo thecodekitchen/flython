@@ -78,11 +78,11 @@ class User(BaseModel):
 
   with open(f'{project}/{project}_fe/lib/models.dart', 'w') as f:
       f.write(
-'''class Model {
+'''class BaseModel {
   Map toJson() => {};
 }
 
-class User extends Model {
+class User extends BaseModel {
   String name = '';
   int age = 0;
 
