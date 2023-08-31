@@ -40,7 +40,7 @@ Or even just
 cd <your-project-name>
 flython run
 ```
-to run both from a single terminal! At the moment, that gets a little chaotic since the server logs for the back end server are mixed in with the debug logs for the front end application. This is especially messy when debugging mobile front ends. However, the recommended approach is to do your main integration testing in a less verbose desktop build for the front end (option 1 in the run command typically) and run the back end server separately when debugging the mobile implementation.
+to run both from a single terminal!
 
 There will be a top level file called test_models.json in the built directory.
 Notice that there is one more model in the JSON than the generated front and back end model files.
@@ -143,11 +143,44 @@ Models need to be referenced AFTER they are declared. The reason that 'Document'
 
 That's all the rules to the model synchronization game! Go have fun!
 
+# New Rule!
+
+I know five was a nice round number, but I decided things would go a lot smoother if I added class extensions. Now we can say
+```
+{
+   "Document": {
+      "name": "string",
+      "content": "string"
+   },
+   "User": {
+      "name": "string",
+      "documents[]": "Document"
+   },
+   "Project: {
+      "name": "string"
+   },
+   "FlythonUser(User)": {
+      "projects[]": "Project
+   }
+}
+```
+and the FlythonUser class will be an extension of the User class containing one extra property, projects, which is a list of Project instances.
 
 To see details on your command line of how to format your JSON models for optimal use with Flython, run 
 ```
 flython fmt
 ```
+
+# Supabase Authentication
+You can now use the optional flag 
+```
+flython create my_project -supabase_auth=my-deeplink-scheme
+```
+to auto-generate Supabase integration code in both your front and back end code bases. You can provide the url and anonymous key of a Supabase project (free tier is fine) in the generated .env file. Be sure to add your chosen deep link scheme (used to redirect back to your app on mobile and desktop builds) to the list of allowed redirect urls in the Url Configuration section of Supabase's Authentication console for your project. This will need to be the same as the deep link scheme chosen when you created the project since it gets hard coded into the platform-specific codebases (currently just Android and web). The project will be configured by default to accept redirects at my-deeplink-scheme://home, but that can be configured by changing the host section of the redirect url in your Supabase Auth configuration. For example, if you wanted the auth process to redirect logged in users to a route called 'profile', you could set the allowed redirect url to my-deeplink-scheme://profile, checking for auth values in the initState function of the ProfilePage in order to prevent viewing of sensitive data.
+
+The backend will be equipped with middleware that will check backend requests for a Supabase token in the header and validates their user information in order to determine access scope for backend resources. Middleware can be customized separately to check for specific Supabase user data. Rudimentary admin checks are provided as an example.
+
+This is not guaranteed to be a fully secure solution to authentication/authorization of your backend in production. It is provided as a simple, automated way to implement certain basic security procedures that normally consume a lot of a developer's time and are easy to misconfigure.
 
 # Prerequisites
 
