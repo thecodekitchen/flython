@@ -1,10 +1,22 @@
+def find_class_extension(class_name:str):
+    start_index = class_name.find("(")
+    end_index = class_name.find(")")
+    name = class_name[0:start_index]
+    extension = class_name[start_index + 1:end_index]
+    return dict({'name': name, 'ext': extension})
+
 def build_python_models(models, model_names):
     with open(f'./app/models.py', 'w') as f:
         f.write('''from pydantic import BaseModel
 ''')
         for idx, model in enumerate(models):
-            f.write(f'''
+            if model_names[idx].find('(') == -1 or model_names[idx].find(')') == -1:
+                f.write(f'''
 class {model_names[idx]}(BaseModel):''')
+            else:
+                class_dict = find_class_extension(model_names[idx])
+                f.write(f'''
+class {class_dict['name']}({class_dict['ext']}):''')
             for key in model.keys():
                 attr_type = model[key]
                 is_optional:bool = str(key).startswith('?')
