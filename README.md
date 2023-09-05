@@ -59,10 +59,11 @@ Rule 1:
 You can synchronize the model schema for the front and back end in this way with any JSON file, allowing for 
 versioned backups of prior configurations. However, breaking changes can occur if either the front or back end 
 model files are edited independently. The whole point is to never do this. If you need a unique class in the front
-or back end logic, that's fine. Just don't extend them from the BaseModel class in either code base.
+or back end logic, that's fine. Just don't extend them from the BaseModel class in either code base. Also, don't include them in the models file for either codebase or else they will be written over and deleted when the models file is re-generated.
 
 Those class extensions operate as indicators that the front and back end need to synchronize those classes in a shared schema.
-**Any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.**
+
+** To reiterate, any class that doesn't extend those base classes should be declared outside the models.py and models.dart files respectively.**
 
 Don't worry, that was the most complicated rule.
 
